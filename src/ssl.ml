@@ -81,19 +81,8 @@ module Connection = struct
        Ffi.Ec_key.new_by_curve_name curve)
   ;;
 
-  let tmp_dh_callback =
-    lazy
-      (* To ensure that the underlying libffi closure is not released pre-maturely
-         we create (and never free) a [Foreign.dynamic_funptr] here.
-         This does not leak as only 2 callbacks are ever defined. *)
-      (let (module Ffi) = force ffi in
-       Ffi.Ssl.Tmp_dh_callback.of_fun (fun _t _is_export key_length ->
-         Rfc3526.modp key_length))
-  ;;
-
   let tmp_rsa_callback =
     lazy
-      (* Like [tmp_dh_callback]. *)
       (let (module Ffi) = force ffi in
        Ffi.Ssl.Tmp_rsa_callback.of_fun (fun _t _is_export key_length ->
          tmp_rsa key_length))
@@ -131,7 +120,6 @@ module Connection = struct
      | `Openssl_default -> ()
      | `Secure -> Ffi.Ssl.set_cipher_list_exn ssl secure_ciphers
      | `Only allowed_ciphers -> Ffi.Ssl.set_cipher_list_exn ssl allowed_ciphers);
-    Ffi.Ssl.set_tmp_dh_callback ssl (force tmp_dh_callback);
     Ffi.Ssl.set_tmp_ecdh ssl (force tmp_ecdh);
     (* Ffi.Ssl.set_tmp_rsa_callback ssl (force tmp_rsa_callback); *)
     Ffi.Ssl.set_bio ssl ~input:rbio ~output:wbio;

@@ -560,9 +560,6 @@ module Ssl = struct
     | n -> failwithf "OpenSSL bug: SSL_set_cipher_list returned %d" n ()
   ;;
 
-  module Tmp_dh_callback = Bindings.Ssl.Tmp_dh_callback
-
-  let set_tmp_dh_callback = Bindings.Ssl.set_tmp_dh_callback
   let set_tmp_ecdh = Bindings.Ssl.set_tmp_ecdh
 
   module Tmp_rsa_callback = Bindings.Ssl.Tmp_rsa_callback

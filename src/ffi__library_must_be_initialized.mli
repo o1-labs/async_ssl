@@ -230,9 +230,6 @@ module Ssl : sig
 
   val set_cipher_list_exn : t -> string list -> unit
 
-  module Tmp_dh_callback : Foreign.Funptr with type fn = t -> bool -> int -> Dh.t
-
-  val set_tmp_dh_callback : t -> Tmp_dh_callback.t -> unit
   val set_tmp_ecdh : t -> Ec_key.t -> unit
 
   module Tmp_rsa_callback : Foreign.Funptr with type fn = t -> bool -> int -> Rsa.t
