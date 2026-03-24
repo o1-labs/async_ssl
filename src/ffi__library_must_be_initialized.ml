@@ -293,10 +293,8 @@ end
 module Bignum = struct
   type t = Bindings.Bignum.t
 
-  let create_no_gc (`hex hex) =
-    let p_ref = Ctypes.(allocate Bindings.Bignum.t_opt None) in
-    let _len = Bindings.Bignum.hex2bn p_ref hex in
-    match Ctypes.( !@ ) p_ref with
+  let create_no_gc (`hex hex) : t =
+    match Bindings.Bignum.hex2bn hex with
     | Some p -> p
     | None -> failwith "Unable to allocate/init Bignum."
   ;;

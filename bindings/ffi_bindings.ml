@@ -394,7 +394,7 @@ module Bindings (F : Cstubs.FOREIGN) = struct
     let new_ = foreign "BN_new" Ctypes.(void @-> returning t_opt)
     let free = foreign "BN_free" Ctypes.(t @-> returning void)
     let bin2bn = foreign "BN_bin2bn" Ctypes.(ptr char @-> int @-> t @-> returning t)
-    let hex2bn = foreign "BN_hex2bn" Ctypes.(ptr t_opt @-> string @-> returning int)
+    let hex2bn = foreign "ocaml_BN_hex2bn" Ctypes.(string @-> returning t_opt)
   end
 
   module Progress_callback = Progress_callback

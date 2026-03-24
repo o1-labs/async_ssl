@@ -144,3 +144,11 @@ void async_ssl__free_pem_peer_certificate_chain(char *certs) {
     free(certs);
     return;
 }
+
+BIGNUM *ocaml_BN_hex2bn(const char *str) {
+  BIGNUM *bn = NULL;
+  if (BN_hex2bn(&bn, str) == 0) {
+    return NULL;
+  }
+  return bn;
+}
