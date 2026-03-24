@@ -21,9 +21,14 @@ end = struct
   ;;
 end
 
-module Bignum = Voidp (struct
-    let name = "Bignum"
-  end)
+module Bignum = struct
+  open Ctypes
+  type stub 
+  type t = stub structure ptr
+  let t_raw : stub structure typ = structure "bignum_st"
+  let t = ptr t_raw
+  let t_opt = ptr_opt t_raw
+end
 
 module Ssl = Voidp (struct
     let name = "Ssl"
